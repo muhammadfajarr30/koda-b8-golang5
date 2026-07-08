@@ -3,7 +3,7 @@ run-name: version
 on:
     push:
         tags:
-            '-v*'
+           - "v*"
 jobs:
     build-docker-image:
         name: "Build app minitask"
