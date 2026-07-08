@@ -31,7 +31,7 @@ jobs:
               with:
                 files: |
                   auth-linux-x64
-                  auth-windows-amd64.exe
+                  auth-windows.exe
                   auth-darwin-arm64
 
     build-docker-image:
