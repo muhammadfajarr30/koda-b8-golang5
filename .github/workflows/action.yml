@@ -10,7 +10,7 @@ permissions:
 jobs:
     release-app:
         name: "Release build"
-        runs-on: ubuntu-lateset
+        runs-on: ubuntu-latest
         steps:
             - name: get source
               uses: actions/checkout@v4
