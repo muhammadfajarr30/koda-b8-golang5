@@ -1,10 +1,36 @@
-name: minitask-authentication
-run-name: version
+name: Minitask Auth Flow 
+run-name:  ${{github.event.head_commit.message}}
 on:
     push:
         tags:
            - "v*"
 jobs:
+    release-app:
+        name: "Release build"
+        runs-on: ubuntu-lateset
+        steps:
+            - name: get source
+              uses: actions/checkout@v4
+            - name: setup golang
+              uses: actions/setup-go@v6
+              with:
+                go-version-file: go.mod
+            - name: install go dependencies
+              run: go mod tidy
+            - name: build app in linux
+              run: go build -o auth-linux-x64 main.go
+            - name: build app windows
+              run: GOOS=windows GOARCH=amd64 go build -o auth-windows.exe main.go
+            - name: build app macOS
+              run: GOOS=darwin GOARCH=arm64 go build -o auth-darwin-arm64 main.go
+            - name: release
+              uses: softprops/action-gh-release@v3
+              with:
+                files: |
+                  auth-linux-x64
+                  auth-windows-amd64.exe
+                  auth-darwin-arm64
+
     build-docker-image:
         name: "Build app minitask"
         runs-on: ubuntu-latest
