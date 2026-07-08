@@ -16,7 +16,7 @@ jobs:
               run: echo -n ${{secrets.GITHUB_TOKEN}} | docker login ghcr.io --username ${{github.actor}} --password-stdin
 
             - name: build docker image
-              run: docker build -t ghcr.io/${{github.repository}}/minitask-authentication:latest .
+              run: docker build . -t ghcr.io/${{github.repository}}/minitask-authentication:latest 
             - name: push to ghcr.io
-              run: docker push ghcr.io/${{github.repository}}/minitastk-authentication:latest
+              run: docker push ghcr.io/${{github.repository}}/minitask-authentication:latest 
             
