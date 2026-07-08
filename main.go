@@ -31,7 +31,6 @@ func register() {
 	fmt.Scan(&user.password)
 	fmt.Println("Register successed!")
 	dataUser = append(dataUser, user)
-	main()
 
 }
 
@@ -70,52 +69,71 @@ func listAllUsers() {
 }
 
 func loginSuccess(user User) {
-	var option int
-	fmt.Println("=== Welcome To system ===")
-	fmt.Printf("\n Welcome, %s\n", user.fullName())
+	for {
+		func() {
+			defer func() {
+				if r := recover(); r != nil {
+					fmt.Println(r)
+				}
+			}()
 
-	fmt.Println("1. List All Users")
-	fmt.Println("0. Logout")
-	fmt.Print("select your menu: ")
-	fmt.Scan(&option)
+			var option int
 
-	switch option {
-	case 1:
-		listAllUsers()
-	case 2:
+			fmt.Println("=== Welcome To System ===")
+			fmt.Printf("Welcome, %s\n", user.fullName())
 
+			fmt.Println("1. List All Users")
+			fmt.Println("0. Logout")
+			fmt.Print("Select menu: ")
+			fmt.Scan(&option)
+
+			switch option {
+			case 1:
+				listAllUsers()
+			case 0:
+				logout()
+				return
+			default:
+				panic("menu tidak tersedia")
+			}
+		}()
 	}
+}
 
+func logout() {
+	fmt.Println("Logout berhasil!")
 }
 
 func main() {
-	defer func() {
-		if val := recover(); val != nil {
-			fmt.Printf("Your choose %v doesn't found ", val)
-		}
-	}()
-	var choose int
-	fmt.Println("=== Welcome To system ===")
-	fmt.Println("1. Register")
-	fmt.Println("2. Login")
-	fmt.Println("3. Forgot Password")
-	fmt.Println("=========================")
+	for {
+		func() {
+			defer func() {
+				if r := recover(); r != nil {
+					fmt.Printf("Error: %v\n\n", r)
+				}
+			}()
 
-	fmt.Println("0 Exit")
+			var choose int
 
-	fmt.Print("select your menu: ")
-	fmt.Scan(&choose)
+			fmt.Println("=== Welcome To System ===")
+			fmt.Println("1. Register")
+			fmt.Println("2. Login")
+			fmt.Println("0. Exit")
+			fmt.Print("Select your menu: ")
 
-	switch choose {
-	case 1:
-		register()
-	case 2:
-		login()
-	case 0:
-		fmt.Println("thank you for coming!")
-		os.Exit(0)
-	default:
-		panic(choose)
+			fmt.Scan(&choose)
+
+			switch choose {
+			case 1:
+				register()
+			case 2:
+				login()
+			case 0:
+				fmt.Println("Thank you!")
+				os.Exit(0)
+			default:
+				panic(fmt.Sprintf("menu %d tidak tersedia", choose))
+			}
+		}()
 	}
-
 }
